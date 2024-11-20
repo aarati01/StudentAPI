@@ -34,4 +34,10 @@ module.exports = {
       res.status(404).send("Student not found");
     }
   },
+
+  deleteStudents: async function (req, res) {
+    console.log("we are inside the all func body");
+    const result = await StudentModel.deleteOne();
+    res.render("Student.ejs", { alltheStudent: result });
+  },
 };
