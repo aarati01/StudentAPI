@@ -33,11 +33,27 @@ require("./model/StudentsModel");
 const StudentController = require("./Controller/StudentController");
 
 //route for the index.html
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+app.get("/", function (req, res) {
+  const homePath = path.join(__dirname, "views", "index.html");
+  return res.sendFile(homePath, function (error) {
+    if (error) {
+      return res.status(404).send("File Not Found!");
+    }
+  });
 });
-// Routes
+
+// Routes to get all the students
 app.get("/student", StudentController.getallStudents);
+//Route to add new students
+app.post("/addStudent", StudentController.addStudents);
+
+//Route to update students 
+
+//route to get other url
+app.get("/:file", function (req, res) {
+  const filePath = path.join(__dirname, req.params.file);
+  return res.render(req.params.file);
+});
 
 // Start Server
 app.listen(3000, () => {
