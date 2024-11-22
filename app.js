@@ -42,12 +42,16 @@ app.get("/", function (req, res) {
   });
 });
 
+app.post("/addStudentSuccess", function (req, res) {
+  res.sendFile(path.join(__dirname, "views", "success.html"));
+});
+
 // Routes to get all the students
 app.get("/student", StudentController.getallStudents);
 //Route to add new students
 app.post("/addStudent", StudentController.addStudents);
 
-//Route to update students 
+//Route to update students
 
 //route to get other url
 app.get("/:file", function (req, res) {
