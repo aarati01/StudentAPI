@@ -19,19 +19,29 @@ module.exports = {
   },
 
   updateStudents: async function (req, res) {
-    const { id, f_name, l_name, semester, courses } = req.body;
+    try {
+      const { id, f_name, l_name, semester, courses } = req.body;
 
-    const result = await StudentModel.findOneAndUpdate(
-      { id },
-      { f_name, l_name, semester, courses: courses.split(",") },
-      { new: true }
-    );
+      // Ensure that `courses` is always an array, even if not provided
+      const updatedCourses = courses ? courses.split(",") : [];
 
-    if (result) {
-      console.log("Student updated successfully!", result);
-      res.redirect("/");
-    } else {
-      res.status(404).send("Student not found");
+      // Update the student details based on the provided ID
+      const result = await StudentModel.findOneAndUpdate(
+        { id }, // Search criteria
+        { f_name, l_name, semester, courses: updatedCourses }, // Updated fields
+        { new: true } // Return the updated document
+      );
+
+      if (result) {
+        console.log("Student updated successfully!", result);
+        res.redirect("/"); // Redirect to the homepage
+      } else {
+        console.error("Student not found with the provided ID");
+        res.status(404).send("Student not found");
+      }
+    } catch (error) {
+      console.error("Error updating student:", error);
+      res.status(500).send("Internal Server Error");
     }
   },
 

@@ -52,6 +52,7 @@ app.get("/student", StudentController.getallStudents);
 app.post("/addStudent", StudentController.addStudents);
 
 //Route to update students
+app.post("/updateStudent", StudentController.updateStudents);
 
 //route to get other url
 app.get("/:file", function (req, res) {
